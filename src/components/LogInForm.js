@@ -20,7 +20,7 @@ const LoginForm = ({ history }) => {
       const response = await axios.post('http://localhost/auth/login', formData);
       console.log(response.data);
       setFormSubmitted(true);
-      
+
       history.push('/');
     } catch (error) {
       console.error(error.response.data);
@@ -28,37 +28,51 @@ const LoginForm = ({ history }) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      {formSubmitted && <p>Login successful! Redirecting...</p>}
-      <form onSubmit={handleSubmit}>
-        {/* Email */}
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-title text-center">Login</h2>
+              {formSubmitted && <p className="text-success text-center">Login successful! Redirecting...</p>}
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        {/* Password */}
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+                <div className="form-group">
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        {/* Submit Button */}
-        <button type="submit">Log In</button>
-      </form>
+                <div className="text-center">
+                  <button type="submit" className="btn btn-danger">Log In</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default LoginForm;
+

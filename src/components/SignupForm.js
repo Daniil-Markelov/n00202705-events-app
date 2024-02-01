@@ -8,7 +8,6 @@ const SignupForm = ({ history }) => {
     password: '',
   });
 
- 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -22,53 +21,72 @@ const SignupForm = ({ history }) => {
       const response = await axios.post('http://localhost/auth/register', formData);
       console.log(response.data);
       setFormSubmitted(true);
-      
 
       history.push('/preferences');
     } catch (error) {
-      console.error(error.response.data)
+      console.error(error.response.data);
     }
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      {formSubmitted && <p>Signup successful! Please set your preferences.</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-title text-center">Sign Up</h2>
+              {formSubmitted && <p className="text-success text-center">Signup successful! Please set your preferences.</p>}
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Name:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+                <div className="form-group">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+                <div className="form-group">
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        <button type="submit">Sign Up</button>
-      </form>
+                <div className="text-center">
+                  <button type="submit" className="btn btn-danger">Sign Up</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default SignupForm;
+
