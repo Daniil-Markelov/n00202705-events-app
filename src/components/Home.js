@@ -63,46 +63,77 @@ const Home = () => {
     const mappings = {
       'Ireland': 'IE',
       'United States': 'US',
+      'United Kingdom': 'UK',
+      'Spain': 'ES'
     };
 
     return mappings[userLocation] || '';
   };
 
   return (
-    <div>
-      <h1>Upcoming Events</h1>
-
-      <div>
-        <label htmlFor="location">Select Location:</label>
-        <select id="location" value={location} onChange={(e) => setLocation(e.target.value)}>
+    <div className="container">
+      <h1 className="mt-4 mb-4">Upcoming Events</h1>
+  
+      <div className="mb-4">
+        <label htmlFor="location" className="form-label">Select Location:</label>
+        <select id="location" value={location} onChange={(e) => setLocation(e.target.value)} className="form-select">
           <option value="Ireland">Ireland</option>
           <option value="United States">United States</option>
-          {/* add later more or change to search query probs */}
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="Spain">Spain</option>
+          {/* Add more options as needed */}
         </select>
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} className="btn btn-primary ms-3">Search</button>
       </div>
-
-      <h2>Ticketmaster Events</h2>
-      <ul>
-        {ticketmasterEvents.map(event => (
-          <li key={event.id}>{event.name}</li>
-        ))}
-      </ul>
-
-      <h2>RapidAPI Events</h2>
-      <ul>
-        {rapidAPIEvents.map(event => (
-          <li key={event.event_id}>
+  
+      <div className="row">
+        <div className="col-md-6">
+          <h2 className="mb-3">Ticketmaster Events</h2>
+          <ul className="list-group">
+            {ticketmasterEvents.map(event => (
+              <li key={event.id} className="list-group-item">
+                <div className="row">
+                  <div className="col-md-4">
+                    <img src={event.images[0].url} alt={event.name} className="img-fluid" style={{ height: '150px', objectFit: 'cover' }} />
+                  </div>
+                  <div className="col-md-8">
+                    <h3>{event.name}</h3>
+                    <p>{new Date(event.dates.start.localDate).toLocaleDateString()}</p>{/*Changes the date + time into just a date  */}
+                    <p>Location: {event._embedded.venues[0].name}, {event._embedded.venues[0].city.name}</p>
+                    <p><a href={event.url} target="_blank" rel="noopener noreferrer">More Info</a></p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="col-md-6">
+  <h2 className="mb-3">RapidAPI Events</h2>
+  <ul className="list-group">
+    {rapidAPIEvents.map(event => (
+      <li key={event.event_id} className="list-group-item">
+        <div className="row">
+          <div className="col-md-4">
+            <img src={event.thumbnail} alt="" className="img-fluid" style={{ height: '150px', objectFit: 'cover' }} />
+          </div>
+          <div className="col-md-8">
             <h3>{event.name}</h3>
-            <p>{event.description}</p>
-            <p>Start Time: {event.start_time}</p>
-            <p>End Time: {event.end_time}</p>
-            <img src={event.thumbnail} alt='' />
-          </li>
-        ))}
-      </ul>
+            <p>{new Date(event.start_time).toLocaleDateString()}</p>
+            <p>Location: {event.venue.name}</p>
+            <p><a href={event.info_links[0].link} target="_blank" rel="noopener noreferrer">More Info</a></p>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
+      </div>
     </div>
   );
+  
+
+  
 };
 
 export default Home;
