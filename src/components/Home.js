@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
     // Ticketmaster
     const ticketmasterApiKey = 'mM5ozgGAP9WelfAi49gdlzxGHpPWBr92';
     const ticketmasterUrl = 'https://app.ticketmaster.com/discovery/v2/events.json';
+  
     const ticketmasterParams = {
       countryCode: ticketmasterLocation,
       apikey: ticketmasterApiKey,
@@ -100,14 +102,16 @@ const Home = () => {
                     <h3>{event.name}</h3>
                     <p>{new Date(event.dates.start.localDate).toLocaleDateString()}</p>{/*Changes the date + time into just a date  */}
                     <p>Location: {event._embedded.venues[0].name}, {event._embedded.venues[0].city.name}</p>
-                    <p><a href={event.url} target="_blank" rel="noopener noreferrer">More Info</a></p>
+                    <Link to={`/events/${event.id}`}>More Info</Link>
+                    {/*<p><a href={event.url} target="_blank" rel="noopener noreferrer">More Info</a></p>*/}
+
                   </div>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-        <div className="col-md-6">
+       {/*  <div className="col-md-6">
   <h2 className="mb-3">RapidAPI Events</h2>
   <ul className="list-group">
     {rapidAPIEvents.map(event => (
@@ -120,13 +124,15 @@ const Home = () => {
             <h3>{event.name}</h3>
             <p>{new Date(event.start_time).toLocaleDateString()}</p>
             <p>Location: {event.venue.name}</p>
-            <p><a href={event.info_links[0].link} target="_blank" rel="noopener noreferrer">More Info</a></p>
+            <Link to={`/events/${event.id}`}>{event.name}</Link>
+            
           </div>
         </div>
       </li>
     ))}
   </ul>
 </div>
+    */}
 
       </div>
     </div>
