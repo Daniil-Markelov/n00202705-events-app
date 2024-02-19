@@ -5,6 +5,9 @@ import LoginForm from './components/LogInForm';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Preferences from './components/Preferences';
+import EventDetails from './components/EventDetails';
+
+
 
 
 const App = () => {
@@ -18,6 +21,7 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/" element={<Home />} />
+          <Route path="/events/:eventId" element={<EventDetails />} />
         </Routes>
       </div>
     </Router>
