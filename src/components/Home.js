@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../Home.css'; // Import custom CSS file for styling
 
 const Home = () => {
   const [userPreferences, setUserPreferences] = useState(null);
   const [ticketmasterEvents, setTicketmasterEvents] = useState([]);
-  const [location, setLocation] = useState('IE'); 
+  const [location, setLocation] = useState('IE');
 
   useEffect(() => {
     const fetchUserPreferences = async () => {
@@ -37,14 +38,12 @@ const Home = () => {
       };
 
       try {
-        const response = await axios.get(ticketmasterUrl, { params: ticketmasterParams })
-        .then(response => {
+        const response = await axios.get(ticketmasterUrl, { params: ticketmasterParams });
         const eventsData = response.data._embedded ? response.data._embedded.events : [];
         const uniqueEvents = Array.from(new Set(eventsData.map(event => event.name)))
-        .map(eventName => eventsData.find(event => event.name === eventName));
+          .map(eventName => eventsData.find(event => event.name === eventName));
 
         setTicketmasterEvents(uniqueEvents);
-        })
       } catch (error) {
         console.error('Error fetching Ticketmaster events:', error);
       }
@@ -53,7 +52,6 @@ const Home = () => {
     handleSearch();
   }, [location, userPreferences]);
 
-  
   return (
     <div className="container">
       <h1 className="mt-4 mb-4">Upcoming Events</h1>
@@ -64,37 +62,29 @@ const Home = () => {
           <select id="location" value={location} onChange={(e) => setLocation(e.target.value)} className="form-select">
             <option value="IE">Ireland</option>
             <option value="US">United States</option>
-            <option value="UK">United Kingdom</option>
             <option value="ES">Spain</option>
             {/* add more options as needed */}
           </select>
         </div>
       )}
 
-      <div className="row">
-        <div className="col-md-6">
-          <h2 className="mb-3">Ticketmaster Events</h2>
-          <ul className="list-group">
-            {ticketmasterEvents.map(event => (
-              <li key={event.id} className="list-group-item">
-                <div className="row">
-                  <div className="col-md-4">
-                    <img src={event.images[0].url} alt={event.name} className="img-fluid" style={{ height: '150px', objectFit: 'cover' }} />
-                  </div>
-                  <div className="col-md-8">
-                    <h3>{event.name}</h3>
-                    <p>{new Date(event.dates.start.localDate).toLocaleDateString()}</p>
-                    {/*<p>Location: {event._embedded.venues[0].name}, {event._embedded.venues[0].city.name}</p> */}
-                    <Link to={`/events/${event.id}`}>More Info</Link>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="event-grid">
+        {ticketmasterEvents.map(event => (
+          <div key={event.id} className="event-card">
+            <img src={event.images[0].url} alt={event.name} className="event-image" />
+            <div className="event-details">
+              <h3 className="event-name">{event.name}</h3>
+              <p>Location: {event._embedded.venues[0].name}, {event._embedded.venues[0].city.name}</p>
+              <p className="event-date">{new Date(event.dates.start.localDate).toLocaleDateString()}</p>
+              <Link to={`/events/${event.id}`} className="event-link">More Info</Link>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
 export default Home;
+
+

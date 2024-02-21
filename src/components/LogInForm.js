@@ -8,7 +8,7 @@ const LoginForm = ({ history }) => {
   });
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,13 +24,17 @@ const LoginForm = ({ history }) => {
       setFormSubmitted(true);
 
       window.location.href = '/';
-    } catch (error) {
+    }  catch (error) {
       if (error.response) {
-
-        console.error(error.response.data);
+        if (error.response.status === 401) {
+          setErrorMessage('Incorrect email or password');
+        } else if (error.response.status === 400) {
+          setErrorMessage('Missing email or password');
+        } else {
+          setErrorMessage('Server Error');
+        }
       } else {
-
-        console.error(error);
+        setErrorMessage('Network Error');
       }
     }
   };
@@ -42,6 +46,7 @@ const LoginForm = ({ history }) => {
           <div className="card">
             <div className="card-body">
               <h2 className="card-title text-center">Login</h2>
+              {errorMessage && <p className="text-danger text-center">{errorMessage}</p>}
               {formSubmitted && <p className="text-success text-center">Login successful! Redirecting...</p>}
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
