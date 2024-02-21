@@ -38,7 +38,7 @@ const SignupForm = () => {
         setErrorMessage(error.response.data.message || 'Server Error');
       }
     } else {
-      // Network errors
+      // Network errors/ when i dont have laravel up running
       setErrorMessage('Network Error');
     }
   }
