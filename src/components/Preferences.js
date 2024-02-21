@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 const Preferences = () => {
   const [step, setStep] = useState(1);
   const [gender, setGender] = useState('');
@@ -31,12 +33,28 @@ const Preferences = () => {
     setLocation(selectedLocation);
   };
 
-  const handleSavePreferences = () => {
-    // add laravel code here
-    setPreferencesSaved(true);
-    //printing the output of the saved preferences to Console
-    console.log(JSON.stringify({ gender, eventTypes, location }, null, 2));
+  const handleSavePreferences = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const preferencesData = {
+        gender: gender,
+        eventTypes: eventTypes,
+        location: location
+      };
+      //console.log(preferencesData);
+  
+      const headers = {
+        Authorization: `Bearer ${token}`
+      };
+  
+      await axios.post('http://127.0.0.1:8000/api/user/preferences', { preferences: preferencesData }, { headers });
+  
+      setPreferencesSaved(true);
+    } catch (error) {
+      console.error('Error saving preferences:', error);
+    }
   };
+  
 
   const handleRestart = () => {
     setPreferencesSaved(false);
@@ -44,8 +62,6 @@ const Preferences = () => {
     setGender('');
     setEventTypes([]);
     setLocation('');
-    // eslint-disable-next-line
-  {/* add the dealtion of the saved pref in laravel when this is used*/ }
   };
 
   const isNextDisabled = () => {
@@ -117,11 +133,11 @@ const Preferences = () => {
                     className={`btn ${location === 'UK' ? 'btn-primary' : 'btn-outline-primary'}`}
                     onClick={() => handleLocationSelect('UK')}
                   >
-                    UK
+                    United Kingdom
                   </button>
                   <button
-                    className={`btn ${location === 'Ireland' ? 'btn-primary' : 'btn-outline-primary'}`}
-                    onClick={() => handleLocationSelect('Ireland')}
+                    className={`btn ${location === 'IE' ? 'btn-primary' : 'btn-outline-primary'}`}
+                    onClick={() => handleLocationSelect('IE')}
                   >
                     Ireland
                   </button>
@@ -129,7 +145,7 @@ const Preferences = () => {
                     className={`btn ${location === 'US' ? 'btn-primary' : 'btn-outline-primary'}`}
                     onClick={() => handleLocationSelect('US')}
                   >
-                    US
+                    United States
                   </button>
                 </div>
               </>

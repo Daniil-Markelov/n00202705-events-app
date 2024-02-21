@@ -17,13 +17,21 @@ const LoginForm = ({ history }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost/auth/login', formData);
+      const response = await axios.post('http://127.0.0.1:8000/api/login', formData);
+      const token = response.data.access_token;
+      localStorage.setItem('token', token);
       console.log(response.data);
       setFormSubmitted(true);
 
-      history.push('/');
+      window.location.href = '/';
     } catch (error) {
-      console.error(error.response.data);
+      if (error.response) {
+
+        console.error(error.response.data);
+      } else {
+
+        console.error(error);
+      }
     }
   };
 
