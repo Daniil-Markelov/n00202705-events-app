@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../Home.css'; // Import custom CSS file for styling
+import '../Home.css';
 
 const Home = () => {
   const [userPreferences, setUserPreferences] = useState(null);
