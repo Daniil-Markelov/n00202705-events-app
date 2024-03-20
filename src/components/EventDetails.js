@@ -12,6 +12,8 @@ const EventDetails = ({ ticketmasterEvents }) => {
 
   const toggleLike = () => {
     setLiked(!liked);
+    console.log(liked);
+    
   };
 
   useEffect(() => {
